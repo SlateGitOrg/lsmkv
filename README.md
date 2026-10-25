@@ -248,7 +248,7 @@ tests/          crash, property, corruption, integration tests
 examples/demo.rs
 ```
 
-Size (`scripts/loc.sh`): 7010 lines (5576 excluding blank and comment lines) of non-test Rust,
+Size (`scripts/loc.sh`): 7011 lines (5576 excluding blank and comment lines) of non-test Rust,
 1950 lines of unit tests and 929 lines of integration tests.
 
 ## Limitations
