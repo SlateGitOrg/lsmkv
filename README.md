@@ -1,5 +1,7 @@
 # lsmkv
 
+[![CI](https://github.com/SlateGitOrg/lsmkv/actions/workflows/ci.yml/badge.svg)](https://github.com/SlateGitOrg/lsmkv/actions/workflows/ci.yml)
+
 An LSM-tree key-value storage engine in Rust, built from first principles in
 the LevelDB lineage: a checksummed write-ahead log with group commit, a
 concurrent skiplist memtable, SSTables with prefix-compressed blocks, a block
@@ -27,12 +29,12 @@ for kv in db.scan(&ReadOptions::default(), Some(b"user/"), Some(b"user0"))? {
 }
 ```
 
-## Why this exists / who it is for
+## Why
 
 Storage engines are where database correctness is actually decided: what
 survives a power cut, what a snapshot sees, what a compaction may throw away.
-lsmkv is a readable, tested reference for engineers who want to understand or
-interview on those details — every durability rule is written down
+lsmkv is a readable, tested reference implementation of those details: every
+durability rule is written down
 ([docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §7) and enforced by a test that
 crashes the engine. It is **not** a production database (see Limitations).
 
@@ -78,10 +80,10 @@ table: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Amplification analysis:
 [docs/AMPLIFICATION.md](docs/AMPLIFICATION.md). Every judgment call:
 [DECISIONS.md](DECISIONS.md).
 
-## Quickstart
+## Quick start
 
-Requires a Rust toolchain (`rust-version` is declared as 1.85, but only 1.97 was tested) and, for coverage,
-`cargo-llvm-cov`.
+Requires a Rust toolchain (`rust-version` is declared as 1.85; development used 1.97) and, for coverage,
+`cargo-llvm-cov` (`cargo install cargo-llvm-cov`).
 
 ```sh
 make check     # fmt-check, clippy -D warnings, rustdoc + check, all tests under coverage (>= 80%), doctests
@@ -272,8 +274,6 @@ Size (`scripts/loc.sh`): 7011 lines (5576 excluding blank and comment lines) of 
 * A whole-table bloom filter is held in memory for each open table.
 * Benchmarks were taken on a loaded laptop; treat absolute throughput as a
   lower bound and compare ratios, not raw numbers.
-* `.github/workflows/ci.yml` mirrors `make check` but has not run yet (the
-  repository has not been pushed).
 
 ## Roadmap
 
