@@ -80,7 +80,7 @@ table: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Amplification analysis:
 
 ## Quickstart
 
-Requires a Rust toolchain (1.85+; built with 1.97) and, for coverage,
+Requires a Rust toolchain (`rust-version` is declared as 1.85, but only 1.97 was tested) and, for coverage,
 `cargo-llvm-cov`.
 
 ```sh
