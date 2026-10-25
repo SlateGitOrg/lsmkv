@@ -2,11 +2,14 @@
 #![warn(missing_docs)]
 
 pub mod batch;
+pub mod cache;
 pub mod error;
 pub mod fs;
 pub mod iterator;
 pub mod key;
 pub mod memtable;
+pub mod sstable;
+pub mod stats;
 pub mod util;
 pub mod wal;
 

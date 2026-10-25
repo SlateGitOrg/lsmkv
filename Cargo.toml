@@ -2,7 +2,7 @@
 name = "lsmkv"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.80"
+rust-version = "1.85"
 description = "An LSM-tree key-value storage engine: WAL with group commit, skiplist memtable, SSTables with bloom filters, leveled compaction, MVCC snapshots and a crash-safe manifest."
 license = "MIT"
 readme = "README.md"
