@@ -43,7 +43,9 @@ impl RandomAccessFile for OsRandom {
         let mut buf = vec![0u8; len];
         let mut filled = 0;
         while filled < len {
-            let n = self.file.read_at(&mut buf[filled..], offset + filled as u64)?;
+            let n = self
+                .file
+                .read_at(&mut buf[filled..], offset + filled as u64)?;
             if n == 0 {
                 break;
             }

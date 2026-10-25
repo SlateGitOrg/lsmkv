@@ -282,7 +282,9 @@ impl RandomAccessFile for SimRandom {
     fn read_at(&self, offset: u64, len: usize) -> Result<Vec<u8>> {
         lock(&self.fs.state).check(FaultKind::Read, self.epoch)?;
         let d = lock(&self.inode);
-        let start = usize::try_from(offset).unwrap_or(usize::MAX).min(d.data.len());
+        let start = usize::try_from(offset)
+            .unwrap_or(usize::MAX)
+            .min(d.data.len());
         let end = start.saturating_add(len).min(d.data.len());
         Ok(d.data[start..end].to_vec())
     }
@@ -332,7 +334,10 @@ impl FileSystem for SimFs {
         let mut st = lock(&self.state);
         let epoch = st.epoch;
         st.check(FaultKind::Remove, epoch)?;
-        st.live.remove(path).map(|_| ()).ok_or_else(|| not_found(path))
+        st.live
+            .remove(path)
+            .map(|_| ())
+            .ok_or_else(|| not_found(path))
     }
 
     fn list(&self, dir: &Path) -> Result<Vec<String>> {
