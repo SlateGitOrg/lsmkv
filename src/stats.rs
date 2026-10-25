@@ -39,7 +39,8 @@ pub struct Stats {
     pub block_cache_misses: AtomicU64,
     /// Point lookups served.
     pub gets: AtomicU64,
-    /// Tables consulted by point lookups (after bloom filtering).
+    /// Tables whose key range covered a point lookup's key (counted before
+    /// the bloom filter; subtract `bloom_useful` for data-block reads).
     pub get_table_probes: AtomicU64,
 }
 
@@ -118,7 +119,7 @@ impl StatsSnapshot {
         (self.flush_bytes + self.compaction_bytes_written) as f64 / self.user_bytes as f64
     }
 
-    /// Mean tables probed per point lookup.
+    /// Mean tables whose key range covered the key, per point lookup.
     pub fn read_amplification(&self) -> f64 {
         if self.gets == 0 {
             return 0.0;

@@ -187,9 +187,10 @@ During development each of three fsyncs (compaction outputs, the new WAL's
 directory entry, the old WAL at rotation) was deleted by hand in turn, and
 each deletion made a crash test fail.
 
-**Coverage**: `make coverage` reports **97.2% line coverage** of the library
+**Coverage**: `make coverage` reports **97.2–97.3% line coverage** of the library
 (`src/`, excluding `src/bin/` and `examples/`; in-file `#[cfg(test)]`
-modules are counted by llvm-cov) and fails below 80%.
+modules are counted by llvm-cov; the figure moves slightly between runs
+because background-thread tests take different paths) and fails below 80%.
 
 ## Benchmarks
 

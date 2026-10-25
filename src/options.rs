@@ -192,8 +192,8 @@ pub struct WriteOptions {
 pub struct ReadOptions<'a> {
     /// Read as of this snapshot instead of the latest state.
     pub snapshot: Option<&'a Snapshot>,
-    /// Insert blocks read by this operation into the block cache
-    /// (`None` = yes for point reads and scans).
+    /// Whether blocks read by a scan are inserted into the block cache
+    /// (`None` = yes). Point lookups always use and fill the cache.
     pub fill_cache: Option<bool>,
 }
 
