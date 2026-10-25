@@ -1,0 +1,27 @@
+[package]
+name = "lsmkv"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+description = "An LSM-tree key-value storage engine: WAL with group commit, skiplist memtable, SSTables with bloom filters, leveled compaction, MVCC snapshots and a crash-safe manifest."
+license = "MIT"
+readme = "README.md"
+keywords = ["lsm", "storage-engine", "key-value", "database"]
+categories = ["database-implementations"]
+
+[dependencies]
+log = "0.4.22"
+
+[dev-dependencies]
+proptest = { version = "1.5.0", default-features = false, features = ["std"] }
+tempfile = "3.13.0"
+
+[profile.release]
+debug = 1
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+missing_docs = "warn"
+
+[lints.clippy]
+undocumented_unsafe_blocks = "warn"
