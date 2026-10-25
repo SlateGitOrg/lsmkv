@@ -33,7 +33,7 @@ pub trait RandomAccessFile: Send + Sync {
     /// at end of file.
     fn read_at(&self, offset: u64, len: usize) -> Result<Vec<u8>>;
     /// Current file length in bytes.
-    fn len(&self) -> Result<u64>;
+    fn size(&self) -> Result<u64>;
 }
 
 /// The set of operations the engine needs from a filesystem.
@@ -58,7 +58,7 @@ pub trait FileSystem: Send + Sync + Debug {
     /// Reads a whole file into memory.
     fn read_all(&self, path: &Path) -> Result<Vec<u8>> {
         let f = self.open(path)?;
-        let len = usize::try_from(f.len()?)
+        let len = usize::try_from(f.size()?)
             .map_err(|_| crate::Error::invalid("file too large to read into memory"))?;
         f.read_at(0, len)
     }
@@ -82,7 +82,7 @@ mod tests {
         assert!(fs.exists(&a));
         assert_eq!(fs.read_all(&a).unwrap(), b"hello world");
         let r = fs.open(&a).unwrap();
-        assert_eq!(r.len().unwrap(), 11);
+        assert_eq!(r.size().unwrap(), 11);
         assert_eq!(r.read_at(6, 100).unwrap(), b"world");
         assert_eq!(r.read_at(50, 4).unwrap(), b"");
         fs.rename(&a, &b).unwrap();

@@ -55,7 +55,7 @@ impl RandomAccessFile for OsRandom {
         Ok(buf)
     }
 
-    fn len(&self) -> Result<u64> {
+    fn size(&self) -> Result<u64> {
         Ok(self.file.metadata()?.len())
     }
 }

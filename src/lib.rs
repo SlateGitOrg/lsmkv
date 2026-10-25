@@ -8,5 +8,6 @@ pub mod iterator;
 pub mod key;
 pub mod memtable;
 pub mod util;
+pub mod wal;
 
 pub use error::{Error, Result};

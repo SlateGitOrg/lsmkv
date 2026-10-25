@@ -289,7 +289,7 @@ impl RandomAccessFile for SimRandom {
         Ok(d.data[start..end].to_vec())
     }
 
-    fn len(&self) -> Result<u64> {
+    fn size(&self) -> Result<u64> {
         Ok(lock(&self.inode).data.len() as u64)
     }
 }
