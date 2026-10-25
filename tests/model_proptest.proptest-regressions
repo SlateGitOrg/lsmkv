@@ -1,0 +1,9 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 3934870c68fb48cc27b5fc8989efeb876f9faba7cbc476fa608b81898b75f4f0 # shrinks to ops = [Put(0, 0), Scan(2, 20)]
+cc ab56d7306403f13e7591bc04ea87366591b895d4f3668a03f2b7dd45afb79177 # shrinks to ops = [Put(41, 12232), Get(42), Delete(79), ReadSnapshot(11504509369766285576, 25), ReadSnapshot(17026555265664721880, 41), ReadSnapshot(16174342607836766655, 22), Scan(67, 69), Put(12, 23485), Batch([(29, Some(16978)), (40, Some(13972)), (0, Some(2425))]), Put(18, 12790), Delete(75), Put(16, 43134), ScanSnapshot(14572441644604510356), Put(67, 21589), ReadSnapshot(5721922981781019441, 4), Put(33, 54848), Delete(53), Put(9, 42745), CompactAll, Scan(5, 74), Scan(5, 18), Batch([(63, Some(54474))]), ReadSnapshot(11183459827621799590, 40), Put(63, 55022), Get(55), ReadSnapshot(16483942360521113748, 41), Get(44), Put(78, 45501), Put(15, 58855)]
+cc b9336ce47b16b55ea1220b7537a5c07de5e5ce1f7eda46482d753df0c4e99c5d # shrinks to ops = [Put(25, 27825), Scan(3, 69), Delete(15), CompactAll]

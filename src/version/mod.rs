@@ -405,11 +405,12 @@ impl VersionBuilder {
     }
 }
 
-/// Checks the structural invariant of levels >= 1: sorted and disjoint.
+/// Checks the structural invariant of levels >= 1: files are sorted and
+/// their **user-key** ranges are disjoint (no user key spans two files).
 pub fn check_invariants(v: &Version) -> Result<()> {
     for (level, files) in v.files.iter().enumerate().skip(1) {
         for w in files.windows(2) {
-            if compare_internal(&w[0].largest, &w[1].smallest).is_ge() {
+            if w[0].largest_user() >= w[1].smallest_user() {
                 return Err(crate::Error::corruption(format!(
                     "overlapping files {} and {} in level {level}",
                     w[0].number, w[1].number

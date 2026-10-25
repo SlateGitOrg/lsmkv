@@ -310,19 +310,25 @@ impl DbInner {
         let mut builder: Option<OutputTable> = None;
         let mut current_user_key: Option<Vec<u8>> = None;
         let mut last_seq_for_key = MAX_SEQUENCE;
+        // Outputs are only ever cut between user keys: if two files of one
+        // level shared a user key, a later compaction could move the newer
+        // half down a level and leave the older half shadowing it.
+        let mut cut_pending = false;
         while input.valid() {
             if self.shutdown_flag.load(Ordering::Acquire) {
                 return Err(Error::Closed);
             }
             let key = input.key();
-            if c.should_stop_before(key) {
-                if let Some(b) = builder.take() {
-                    outputs.push(b.finish()?);
-                }
-            }
+            cut_pending |= c.should_stop_before(key);
             let p = parse_internal_key(key)
                 .ok_or_else(|| Error::corruption("bad internal key in compaction input"))?;
             if current_user_key.as_deref() != Some(p.user_key) {
+                if cut_pending {
+                    if let Some(b) = builder.take() {
+                        outputs.push(b.finish()?);
+                    }
+                    cut_pending = false;
+                }
                 current_user_key = Some(p.user_key.to_vec());
                 last_seq_for_key = MAX_SEQUENCE;
             }
@@ -349,9 +355,7 @@ impl DbInner {
                 let b = builder.as_mut().expect("builder exists");
                 b.add(key, input.value())?;
                 if b.builder.file_size_estimate() >= c.max_output_file_size {
-                    if let Some(b) = builder.take() {
-                        outputs.push(b.finish()?);
-                    }
+                    cut_pending = true;
                 }
             }
             input.next();
