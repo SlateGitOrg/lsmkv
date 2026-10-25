@@ -326,11 +326,16 @@ impl Db {
         Ok(())
     }
 
-    /// Blocks until no flush or size-triggered compaction is pending.
+    /// Blocks until no flush or size-triggered compaction is pending, then
+    /// deletes files that only iterators released since then were pinning.
     pub fn wait_for_compactions(&self) -> Result<()> {
         self.inner.schedule_work();
         self.inner
-            .wait_until(|st| st.imm.is_none() && st.versions.current().compaction_score < 1.0)
+            .wait_until(|st| st.imm.is_none() && st.versions.current().compaction_score < 1.0)?;
+        let _work = lock(&self.inner.work_lock);
+        let mut st = self.inner.lock_state();
+        self.inner.delete_obsolete_files(&mut st);
+        Ok(())
     }
 
     /// A copy of the engine counters.
