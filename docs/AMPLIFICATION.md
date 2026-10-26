@@ -73,7 +73,7 @@ timing can shift them slightly between runs):
 The end-to-end demo (`make demo`, 100k random inserts with
 `write_buffer_size` 512 KiB and `max_bytes_for_level_base` 2 MiB, so the tree
 is one level deeper relative to its size) shows the same shape: WA 5.46
-(tree 4.44), bloom filters ruling out 99% of probes for absent keys, and SA
+(tree 4.44), bloom filters filtering out 99% of probes for absent keys, and SA
 falling from 1.07 to 1.05 after a full manual compaction.
 
 ## Knobs
